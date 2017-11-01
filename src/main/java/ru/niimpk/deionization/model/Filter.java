@@ -1,14 +1,54 @@
 package ru.niimpk.deionization.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "filters")
 public class Filter {
-    private int passedWaterVolume;
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @Column(name = "water_passed")
+    private Integer passedWaterVolume;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "full_name")
     private String fullName;
+
+    @Column(name = "purchase_date")
     private Date purchaseDate;
+
+    @Column(name = "installation_date")
     private Date installationDate;
-    private Date removeDate;
+
+    @Column(name = "utilize_date")
+    private Date utilizeDate;
+
+    @Column(name = "location")
+    @Enumerated(EnumType.STRING)
+    private FilterLocation location;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public FilterLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(FilterLocation location) {
+        this.location = location;
+    }
 
     public int getPassedWaterVolume() {
         return passedWaterVolume;
@@ -50,11 +90,11 @@ public class Filter {
         this.installationDate = installationDate;
     }
 
-    public Date getRemoveDate() {
-        return removeDate;
+    public Date getUtilizeDate() {
+        return utilizeDate;
     }
 
-    public void setRemoveDate(Date removeDate) {
-        this.removeDate = removeDate;
+    public void setUtilizeDate(Date utilizeDate) {
+        this.utilizeDate = utilizeDate;
     }
 }
