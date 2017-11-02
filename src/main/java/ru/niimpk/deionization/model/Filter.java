@@ -17,7 +17,7 @@ public class Filter {
 
     @Column(name = "name")
     @Enumerated(EnumType.STRING)
-    private String name;
+    private FilterName name;
 
     @Column(name = "full_name")
     private String fullName;
@@ -59,11 +59,15 @@ public class Filter {
         this.passedWaterVolume = passedWaterVolume;
     }
 
-    public String getName() {
+    public void setPassedWaterVolume(Integer passedWaterVolume) {
+        this.passedWaterVolume = passedWaterVolume;
+    }
+
+    public FilterName getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(FilterName name) {
         this.name = name;
     }
 

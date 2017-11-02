@@ -15,6 +15,10 @@ header h2 {
 	border-radius: 4px
 }
 
+.page-header {
+	border: none;
+}
+
 .wrapper {
 	position: absolute;
 	bottom: 0;
