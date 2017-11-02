@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
+		<link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}"/>
+		<title>Вёрсточка</title>
+	</head>
+	<body>
+		<header class="container-fluid">
+			<div class="container">
+			<div class="row">
+				<div class="pull-right page-header">
+					<h2>Контроль установки деионизации</h2>
+				</div>
+			</div>
+				<div class="wrapper">
+					<ul class="nav nav-tabs">
+						<li role="presentation"><a href="home.html">Главная</a></li>
+						<li role="presentation" class="active"><a href="warehouse.html">Склад</a></li>
+						<li role="presentation"><a href="#">Отчёты</a></li>
+						<li role="presentation"><a href="#">Документы</a></li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<div class="container content">
+			<table class="table table-bordered">
+				<tr>
+					<th>Наименование</th>
+					<th>Полное название</th>
+					<th>Дата поступления</th>
+					<th>Количество</th>
+				</tr>
+				<tr>
+					<td>ПФ</td>
+					<td>Картридж предфильтра-дехлоратора</td>
+					<td>01.08.2017</td>
+					<td>6</td>
+				</tr>
+				<tr>
+					<td>ФСД</td>
+					<td>Картридж фильтра смешанного действия</td>
+					<td>01.08.2017</td>
+					<td>4</td>
+				</tr>
+			</table>
+
+			<a class="btn btn-primary" role="button" data-toggle="collapse" href="#create" aria-expanded="false" aria-controls="collapseExample">
+			  Добавить фильтры
+			</a>
+			<a class="btn btn-primary" role="button" data-toggle="collapse" href="#delete" aria-expanded="false" aria-controls="collapseExample">
+			  Убрать фильтры
+			</a>
+			<div class="collapse" id="create">
+			  <div class="well">
+			    <form class="form-inline">
+
+					<div class="form-group">
+						<label>Наименование</label>
+						<select class="form-control">
+							<option>Вх</option>
+							<option>ПФ</option>
+							<option>ДК</option>
+							<option>А1-3</option>
+							<option>КФ</option>
+							<option>АФ</option>
+							<option>ФСД</option>
+						</select>
+					</div>
+				  <div class="form-group">
+				    <label for="count">Кол-во</label>
+				    <input type="text" class="form-control" id="count" placeholder="кол-во">
+				  </div>
+				  <div class="form-group">
+				    <label for="date">Кол-во</label>
+				    <input type="date" class="form-control" id="date" placeholder="кол-во">
+				  </div>
+				  <button type="submit" class="btn btn-default">Добавить</button>
+				</form>
+			  </div>
+			</div> 
+			<div class="collapse" id="delete">
+			  <div class="well">
+			    <form class="form-inline">
+				  <div class="form-group">
+				    <label for="filter-names">Наименование</label>
+				    <select id="filter-names" class="form-control">
+					  <option>Вх</option>
+					  <option>ПФ</option>
+					  <option>ДК</option>
+					  <option>А1-3</option>
+					  <option>КФ</option>
+					  <option>АФ</option>
+					  <option>ФСД</option>
+					</select>
+				  </div>
+				  <div class="form-group">
+				    <label for="count">Кол-во</label>
+				    <input type="text" class="form-control" id="count" placeholder="кол-во">
+				  </div>
+				  <button type="submit" class="btn btn-default">Убрать</button>
+				</form>
+			  </div>
+			</div> 
+
+		</div>
+		<footer>
+			АО "НИИМП-К"
+		</footer>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script type="text/javascript" src="../static/js/bootstrap.js"></script>
+		<script type="text/javascript" src="../static/js/npm.js"></script>
+	</body>
+</html>

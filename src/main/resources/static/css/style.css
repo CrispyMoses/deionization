@@ -1,0 +1,92 @@
+html {
+	font-size: 13pt;
+	background-color: lightgrey;
+	padding: 0;
+}
+
+header {
+	background: url("../image/logo-bg.jpg") 30px;
+	height: 250px;
+	position: relative;
+}
+
+header h2 {
+	background-color: white;
+	border-radius: 4px
+}
+
+.wrapper {
+	position: absolute;
+	bottom: 0;
+}
+
+ul {
+	background-color: white;
+	-webkit-border-radius: 4px;
+	        border-radius: 4px;
+}
+
+.content {
+	min-height: 500px;
+	background-color: white;
+}
+
+.device {
+	width: 780px;
+	padding-top: 30px;
+	margin: auto;
+}
+
+.filter {
+	color: black;
+	text-align: center;
+	line-height: 9;
+	display: inline-block;
+	margin-left: 10px;
+	border: 1px solid black;
+	border-radius: 4px;
+	width: 50px;
+	height: 150px;
+	font-weight: bold;
+	cursor: pointer;
+	margin-bottom: 10px;
+	background-color: #0bda51;
+}
+
+.DK {
+	height: 50px;
+	line-height: 3;
+}
+
+.A1-3 {
+	width: 90px;
+	height: 80px;
+	line-height: 5;
+}
+
+.E {
+	width: 130px;
+}
+
+.yellow {
+	background-color: yellow;
+}
+
+.red {
+	background-color: red;
+}
+
+.info {
+	text-align: center;
+	min-height: 30px;
+	padding: 10px 10% 0 10%;
+}
+
+.info p {
+	display: none;
+	font-size: 18px;
+}
+
+table {
+	margin-top: 30px;
+}
