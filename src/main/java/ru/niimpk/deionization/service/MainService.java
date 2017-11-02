@@ -7,7 +7,6 @@ import ru.niimpk.deionization.DAO.MainDAO;
 
 import java.text.SimpleDateFormat;
 
-@Transactional
 @Service
 public class MainService {
 

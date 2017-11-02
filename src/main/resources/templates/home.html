@@ -1,10 +1,59 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
-<head>
-    <title>Home page</title>
-</head>
-<body>
-    <h1>Текущая дата:</h1>
-    <h2 th:text="${date}"></h2>
-</body>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" th:href="@{/css/style.css}"/>
+		<title>Вёрсточка</title>
+	</head>
+	<body>
+		<header class="container-fluid">
+			<div class="container">
+			<div class="row">
+				<div class="pull-right page-header">
+					<h2>Контроль установки деионизации</h2>
+				</div>
+			</div>
+				<div class="wrapper">
+					<ul class="nav nav-tabs">
+						<li role="presentation" class="active"><a href="#">Главная</a></li>
+						<li role="presentation"><a href="warehouse.html">Склад</a></li>
+						<li role="presentation"><a href="#">Отчёты</a></li>
+						<li role="presentation"><a href="#">Документы</a></li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<div class="container content">
+			<div class="center-block">
+				<div class="device center-block">
+					<div class="filter IN1">Вх1</div>
+					<div class="filter IN2">Вх2</div>
+					<div class="filter PF red">ПФ</div>
+					<div class="filter DK">ДК</div>
+					<div class="filter A1-3">А1-3</div>
+					<div class="filter KF">КФ</div>
+					<div class="filter AF">АФ</div>
+					<div class="filter FSD yellow">ФСД</div>
+					<div class="filter E">Е</div>
+					<div class="filter FSDr">ФСДр</div>
+				</div>
+				<div class="info">
+					<p class="IN1-info">Много всякой инфы про входной 1</p>
+					<p class="IN2-info">про входной второй</p>
+					<p class="PF-info">Про ПФ</p>
+					<p class="DK-info">Про ДК</p>
+					<p class="A1-3-info">А эта часть про А1-3</p>
+					<p class="KF-info">Удивительный КФ</p>
+					<p class="AF-info">НЕ менее удивительный АФ</p>
+					<p class="FSD-info">Наше золотце - ФСД</p>
+					<p class="E-info">Не забывай регенерацию ёмкости, еба</p>
+					<p class="FSDr-info">О, там же тоже есть фильтр. Сколько мы его не меняли?</p>
+				</div>
+			</div>
+			</div>
+			<footer class="navbar-fixed-bottom">
+				АО "НИИМП-К"
+			</footer>
+		<script type="text/javascript" src="../static/js/my.js"></script>
+	</body>
 </html>

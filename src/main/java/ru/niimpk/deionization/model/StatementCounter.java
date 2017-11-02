@@ -3,6 +3,7 @@ package ru.niimpk.deionization.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @Table(name = "water_counters")
 public class StatementCounter {
 
+    @Id
     @Column(name = "date")
     private Date date;
 

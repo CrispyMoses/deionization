@@ -8,7 +8,6 @@ import ru.niimpk.deionization.model.Filter;
 
 import javax.persistence.EntityManager;
 
-@Transactional
 @Repository
 public class MainDAO {
 

@@ -16,7 +16,13 @@ public class MainController {
     public ModelAndView home() {
         ModelAndView mov = new ModelAndView();
         mov.setViewName("home");
-        mov.addObject("date",service.getDate());
+        return mov;
+    }
+
+    @RequestMapping(value = "/warehouse")
+    public ModelAndView warehouse() {
+        ModelAndView mov = new ModelAndView();
+        mov.setViewName("warehouse");
         return mov;
     }
 }
