@@ -16,6 +16,7 @@ public class Filter {
     private Integer passedWaterVolume;
 
     @Column(name = "name")
+    @Enumerated(EnumType.STRING)
     private String name;
 
     @Column(name = "full_name")

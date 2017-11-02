@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.niimpk.deionization.model.Filter;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class MainDAO {
@@ -14,7 +16,8 @@ public class MainDAO {
     @Autowired
     private EntityManager em;
 
-    public Filter getFilter() {
-        return em.find(Filter.class, new Integer(1));
+    public List<Filter> getWarehouseFilters() {
+        List<Filter> list = new ArrayList<>();
+        return list;
     }
 }
