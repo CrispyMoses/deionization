@@ -28,20 +28,42 @@
 				<tr>
 					<th>Наименование</th>
 					<th>Полное название</th>
-					<th>Дата поступления</th>
 					<th>Количество</th>
 				</tr>
 				<tr>
+					<td>Вх</td>
+					<td>Фильтр входной</td>
+					<td th:text="${warehouse.INamount}"></td>
+				</tr>
+				<tr>
 					<td>ПФ</td>
-					<td>Картридж предфильтра-дехлоратора</td>
-					<td>01.08.2017</td>
-					<td>6</td>
+					<td>Картридж предфильтра-дехлоратора ПД ВВ20</td>
+					<td th:text="${warehouse.PFamount}"></td>
+				</tr>
+				<tr>
+					<td>ДК</td>
+					<td>Картридж осадкообразующий</td>
+					<td th:text="${warehouse.DKamount}"></td>
+				</tr>
+				<tr>
+					<td>А1-3</td>
+					<td>комплект мембранных картриджей</td>
+					<td th:text="${warehouse.A13amount}"></td>
+				</tr>
+				<tr>
+					<td>КФ</td>
+					<td>Картридж фильтра катионного КФ ВВ20</td>
+					<td th:text="${warehouse.KFamount}"></td>
+				</tr>
+				<tr>
+					<td>АФ</td>
+					<td>Картридж фильтра анионного АФ ВВ20</td>
+					<td th:text="${warehouse.AFamount}"></td>
 				</tr>
 				<tr>
 					<td>ФСД</td>
-					<td>Картридж фильтра смешанного действия</td>
-					<td>01.08.2017</td>
-					<td>4</td>
+					<td>Картридж фильтра смешанного действия ФСД ВВ20</td>
+					<td th:text="${warehouse.FSDamount}"></td>
 				</tr>
 			</table>
 
@@ -53,27 +75,26 @@
 			</a>
 			<div class="collapse" id="create">
 			  <div class="well">
-			    <form class="form-inline">
-
+			    <form action="#" th:action="@{/add-to-warehouse}" th:object="${create}" method="POST" class="form-inline">
 					<div class="form-group">
 						<label>Наименование</label>
-						<select class="form-control">
-							<option>Вх</option>
-							<option>ПФ</option>
-							<option>ДК</option>
-							<option>А1-3</option>
-							<option>КФ</option>
-							<option>АФ</option>
-							<option>ФСД</option>
+						<select th:field="*{name}" class="form-control">
+							<option th:value="IN">Вх</option>
+							<option th:value="PF">ПФ</option>
+							<option th:value="DK">ДК</option>
+							<option th:value="A13">А1-3</option>
+							<option th:value="KF">КФ</option>
+							<option th:value="AF">АФ</option>
+							<option th:value="FSD">ФСД</option>
 						</select>
 					</div>
 				  <div class="form-group">
 				    <label for="count">Кол-во</label>
-				    <input type="text" class="form-control" id="count" placeholder="кол-во" />
+				    <input type="text" th:field="*{amount}" class="form-control" id="count" placeholder="кол-во" />
 				  </div>
 				  <div class="form-group">
-				    <label for="date">Кол-во</label>
-				    <input type="date" class="form-control" id="date" placeholder="кол-во"/>
+				    <label for="date">Дата поставки</label>
+				    <input type="date" th:field="*{date}" class="form-control" id="date" placeholder="дата"/>
 				  </div>
 				  <button type="submit" class="btn btn-default">Добавить</button>
 				</form>

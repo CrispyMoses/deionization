@@ -1,4 +1,4 @@
-package ru.niimpk.deionization.model;
+package ru.niimpk.deionization.model.filters;
 
 public enum FilterName {
     IN,
