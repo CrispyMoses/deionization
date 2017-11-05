@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.niimpk.deionization.DAO.MainDAO;
 import ru.niimpk.deionization.model.filters.Filter;
+import ru.niimpk.deionization.model.filters.FilterLocation;
 import ru.niimpk.deionization.model.filters.FilterName;
 import ru.niimpk.deionization.model.warehouse.CreateDeleteUtil;
 import ru.niimpk.deionization.model.warehouse.Warehouse;
@@ -36,9 +37,16 @@ public class MainService {
         for (int i = 0; i < cdu.getAmount(); i++) {
             Filter filter = new Filter();
             filter.setName(cdu.getName());
-            filter.setFullName("залупка");
             filter.setPurchaseDate(cdu.getDate());
+            filter.setLocation(FilterLocation.WAREHOUSE);
             dao.persistFilter(filter);
+        }
+    }
+
+
+    public void deleteFiltersFromWarehouse(CreateDeleteUtil cdu) {
+        for (int i = 0; i < cdu.getAmount(); i++) {
+            dao.deleteFilterByCriteria(dao.getRandomFilter(cdu.getName(), FilterLocation.WAREHOUSE));
         }
     }
 }

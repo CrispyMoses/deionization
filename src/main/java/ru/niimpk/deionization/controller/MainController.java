@@ -1,5 +1,6 @@
 package ru.niimpk.deionization.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,8 +10,12 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.niimpk.deionization.model.warehouse.CreateDeleteUtil;
 import ru.niimpk.deionization.service.MainService;
 
+import java.text.SimpleDateFormat;
+
 @Controller
 public class MainController {
+
+    private static final Logger log = Logger.getLogger(MainController.class);
 
     @Autowired
     private MainService service;
@@ -34,7 +39,15 @@ public class MainController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/add-to-warehouse")
     public String addToWarehouse(@ModelAttribute CreateDeleteUtil cdu) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        log.info("Прибыло " + cdu.getAmount() + " фильтров " + dateFormat.format(cdu.getDate()));
         service.addToDateBase(cdu);
+        return "redirect:/warehouse";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/delete-from-warehouse")
+    public String deleteFromWarehouse(@ModelAttribute CreateDeleteUtil cdu) {
+        service.deleteFiltersFromWarehouse(cdu);
         return "redirect:/warehouse";
     }
 }

@@ -1,5 +1,6 @@
 package ru.niimpk.deionization.model.warehouse;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.niimpk.deionization.model.filters.FilterName;
 
 import java.util.Date;
@@ -26,6 +27,7 @@ public class CreateDeleteUtil {
         this.amount = amount;
     }
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getDate() {
         return date;
     }

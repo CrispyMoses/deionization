@@ -19,9 +19,6 @@ public class Filter {
     @Enumerated(EnumType.STRING)
     private FilterName name;
 
-    @Column(name = "full_name")
-    private String fullName;
-
     @Column(name = "purchase_date")
     private Date purchaseDate;
 
@@ -69,14 +66,6 @@ public class Filter {
 
     public void setName(FilterName name) {
         this.name = name;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     public Date getPurchaseDate() {

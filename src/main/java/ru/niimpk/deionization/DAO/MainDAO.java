@@ -28,4 +28,17 @@ public class MainDAO {
     public void persistFilter(Filter filter) {
         em.persist(filter);
     }
+
+    public Filter getRandomFilter(FilterName name, FilterLocation location) {
+       return em.createQuery("select f from Filter f where f.location = :location and f.name = :name", Filter.class)
+                .setParameter("location", location)
+                .setParameter("name", name)
+                .getResultList().get(0);
+    }
+
+    public void deleteFilterByCriteria(Filter filter) {
+        em.createQuery("delete from Filter f where f.id = :id")
+                .setParameter("id", filter.getId())
+                .executeUpdate();
+    }
 }
