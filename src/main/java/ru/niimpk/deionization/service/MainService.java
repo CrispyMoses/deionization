@@ -46,7 +46,7 @@ public class MainService {
 
     public void deleteFiltersFromWarehouse(CreateDeleteUtil cdu) {
         for (int i = 0; i < cdu.getAmount(); i++) {
-            dao.deleteFilterByCriteria(dao.getRandomFilter(cdu.getName(), FilterLocation.WAREHOUSE));
+            dao.deleteFilterByCriteria(dao.getOlderFilter(cdu.getName(), FilterLocation.WAREHOUSE));
         }
     }
 }

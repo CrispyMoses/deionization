@@ -29,8 +29,8 @@ public class MainDAO {
         em.persist(filter);
     }
 
-    public Filter getRandomFilter(FilterName name, FilterLocation location) {
-       return em.createQuery("select f from Filter f where f.location = :location and f.name = :name", Filter.class)
+    public Filter getOlderFilter(FilterName name, FilterLocation location) {
+       return em.createQuery("select f from Filter f where f.location = :location and f.name = :name order by f.date", Filter.class)
                 .setParameter("location", location)
                 .setParameter("name", name)
                 .getResultList().get(0);
