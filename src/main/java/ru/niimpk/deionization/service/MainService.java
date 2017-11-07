@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.niimpk.deionization.DAO.MainDAO;
+import ru.niimpk.deionization.model.condition.Plant;
+import ru.niimpk.deionization.model.counters.StatementCounter;
 import ru.niimpk.deionization.model.filters.Filter;
 import ru.niimpk.deionization.model.filters.FilterLocation;
 import ru.niimpk.deionization.model.filters.FilterName;
@@ -48,5 +50,14 @@ public class MainService {
         for (int i = 0; i < cdu.getAmount(); i++) {
             dao.deleteFilterByCriteria(dao.getOlderFilter(cdu.getName(), FilterLocation.WAREHOUSE));
         }
+    }
+
+    public void changeStatements(StatementCounter sc) {
+
+    }
+
+    public Plant getPlant() {
+        Plant plant = new Plant();
+        return plant;
     }
 }

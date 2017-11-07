@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import ru.niimpk.deionization.model.counters.StatementCounter;
 import ru.niimpk.deionization.model.warehouse.CreateDeleteUtil;
 import ru.niimpk.deionization.service.MainService;
 
@@ -24,6 +25,7 @@ public class MainController {
     public ModelAndView home() {
         ModelAndView mov = new ModelAndView();
         mov.setViewName("home");
+        mov.addObject("statement", new StatementCounter());
         return mov;
     }
 
@@ -39,8 +41,6 @@ public class MainController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/add-to-warehouse")
     public String addToWarehouse(@ModelAttribute CreateDeleteUtil cdu) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        log.info("Прибыло " + cdu.getAmount() + " фильтров " + dateFormat.format(cdu.getDate()));
         service.addToDateBase(cdu);
         return "redirect:/warehouse";
     }
@@ -49,5 +49,10 @@ public class MainController {
     public String deleteFromWarehouse(@ModelAttribute CreateDeleteUtil cdu) {
         service.deleteFiltersFromWarehouse(cdu);
         return "redirect:/warehouse";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/change-statement")
+    public String addStatement() {
+        return "redirect:/home";
     }
 }

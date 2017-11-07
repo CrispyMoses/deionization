@@ -41,4 +41,11 @@ public class MainDAO {
                 .setParameter("id", filter.getId())
                 .executeUpdate();
     }
+
+    public Filter getWorkFilter(FilterName name) {
+        return em.createQuery("select f from Filter where f.location = :location and f.name = :name", Filter.class)
+                .setParameter("location", FilterLocation.WORK)
+                .setParameter("name", name)
+                .getSingleResult();
+    }
 }
