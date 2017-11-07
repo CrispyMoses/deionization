@@ -30,7 +30,7 @@ public class MainDAO {
     }
 
     public Filter getOlderFilter(FilterName name, FilterLocation location) {
-       return em.createQuery("select f from Filter f where f.location = :location and f.name = :name order by f.date", Filter.class)
+       return em.createQuery("select f from Filter f where f.location = :location and f.name = :name order by f.purchaseDate", Filter.class)
                 .setParameter("location", location)
                 .setParameter("name", name)
                 .getResultList().get(0);

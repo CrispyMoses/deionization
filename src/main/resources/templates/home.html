@@ -50,21 +50,23 @@
 					<p class="FSDr-info">О, там же тоже есть фильтр. Сколько мы его не меняли?</p>
 				</div>
 			</div>
+			<div class="center-block">
 			<form action="#" th:action="@{/change-statement}" th:object="${statement}" method="POST" class="form-inline">
 				<div class="form-group">
-					<label for="date">Дата поставки</label>
+					<label for="date">Дата замера</label>
 					<input type="date" th:field="*{date}" class="form-control" id="date" placeholder="дата"/>
 				</div>
 				<div class="form-group">
-					<label for="in">Кол-во</label>
+					<label for="in">Входной счёткик</label>
 					<input type="text" th:field="*{incomeStatement}" class="form-control" id="in" placeholder="Входной датчик" />
 				</div>
 				<div class="form-group">
-					<label for="out">Кол-во</label>
+					<label for="out">Выходной счётчик</label>
 					<input type="text" th:field="*{outStatement}" class="form-control" id="out" placeholder="Выходной датчик" />
 				</div>
 				<button type="submit" class="btn btn-default">Добавить показания</button>
 			</form>
+			</div>
 			</div>
 			<footer class="navbar-fixed-bottom">
 				АО "НИИМП-К"
