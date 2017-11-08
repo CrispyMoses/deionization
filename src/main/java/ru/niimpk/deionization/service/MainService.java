@@ -70,7 +70,8 @@ public class MainService {
     }
 
 
-    //TODO: опять косяк с датой и выгрузкой фильтров
+
+    //TODO: Фсд регенерации всё ещё не работает нормально
     public List<PartOfPlant> getPlant() {
         List<PartOfPlant> plant = new LinkedList<>();
         plant.add(createPoP(PlantMappingName.IN1, FilterFullName.IN));
@@ -97,20 +98,21 @@ public class MainService {
         Filter filter = dao.getWorkFilter(name);
         pop.setFilter(filter);
         pop.setFullName(fullName);
+        if (filter.getName().equals(FilterName.A13)) pop.setLastRegeneration(filter.getLastRegeneration());
         pop.setWearPercentage(getWearPercentage(filter));
         return pop;
     }
 
-    //TODO: пофиксить разницу дат
     private int getWearPercentage(Filter filter) {
+        long today = new Date().getTime();
         switch (filter.getName()) {
             case IN: return filter.getPassedWaterVolume()/DataLimit.IN * 100;
-            case PF: return filter.getPassedWaterVolume()/DataLimit.IN * 100;
-            case DK: return new Date().compareTo(filter.getInstallationDate())/DataLimit.IN * 100;
-            case A13: return (new Date().getDay() - filter.getPassedWaterVolume())/DataLimit.IN * 100;
-            case KF: return filter.getPassedWaterVolume()/DataLimit.IN * 100;
-            case AF: return filter.getPassedWaterVolume()/DataLimit.IN * 100;
-            case FSD: return filter.getPassedWaterVolume()/DataLimit.IN * 100;
+            case PF: return filter.getPassedWaterVolume()/DataLimit.PF * 100;
+            case DK: return (int) ((today - filter.getInstallationDate().getTime())/DataLimit.DK * 100);
+            case A13: return (int) ((today - filter.getPassedWaterVolume())/DataLimit.A13 * 100);
+            case KF: return filter.getPassedWaterVolume()/DataLimit.KF * 100;
+            case AF: return filter.getPassedWaterVolume()/DataLimit.AF * 100;
+            case FSD: return filter.getPassedWaterVolume()/DataLimit.FSD * 100;
             default: return 0;
         }
     }

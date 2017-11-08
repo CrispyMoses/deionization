@@ -8,10 +8,11 @@ import java.util.Date;
 public class PartOfPlant {
     private Filter filter;
     private String fullName;
+    private int wearPercentage;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date lastRegeneration;
-    private int wearPercentage;
+
 
     public PartOfPlant() {
     }
