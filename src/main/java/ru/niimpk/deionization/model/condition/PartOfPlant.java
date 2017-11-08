@@ -7,6 +7,14 @@ public class PartOfPlant {
     private String fullName;
     private int wearPercentage;
 
+    public PartOfPlant() {
+    }
+
+    public PartOfPlant(String fullName, int wearPercentage) {
+        this.fullName = fullName;
+        this.wearPercentage = wearPercentage;
+    }
+
     public Filter getFilter() {
         return filter;
     }

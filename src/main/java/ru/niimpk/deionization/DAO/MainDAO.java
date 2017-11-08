@@ -3,6 +3,9 @@ package ru.niimpk.deionization.DAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.niimpk.deionization.model.condition.PlantMappingName;
+import ru.niimpk.deionization.model.condition.Reservoir;
+import ru.niimpk.deionization.model.counters.StatementCounter;
 import ru.niimpk.deionization.model.filters.Filter;
 import ru.niimpk.deionization.model.filters.FilterLocation;
 import ru.niimpk.deionization.model.filters.FilterName;
@@ -36,16 +39,23 @@ public class MainDAO {
                 .getResultList().get(0);
     }
 
-    public void deleteFilterByCriteria(Filter filter) {
+    public void deleteFilter(Filter filter) {
         em.createQuery("delete from Filter f where f.id = :id")
                 .setParameter("id", filter.getId())
                 .executeUpdate();
     }
 
-    public Filter getWorkFilter(FilterName name) {
-        return em.createQuery("select f from Filter where f.location = :location and f.name = :name", Filter.class)
-                .setParameter("location", FilterLocation.WORK)
+    public Filter getWorkFilter(PlantMappingName name) {
+        return em.createQuery("select pm.filter from PlantMapping pm where pm.name = :name", Filter.class)
                 .setParameter("name", name)
                 .getSingleResult();
     }
+
+    public void persistStatement(StatementCounter sc) {em.persist(sc);}
+
+    public Reservoir getReservoir() {
+        return em.find(Reservoir.class, new Integer(1));
+    }
+
+    public void persistReservoir(Reservoir reservoir) {em.persist(reservoir);}
 }

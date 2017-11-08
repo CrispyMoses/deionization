@@ -25,12 +25,23 @@ public class Filter {
     @Column(name = "installation_date")
     private Date installationDate;
 
+    @Column(name = "last_regeneration")
+    private Date lastRegeneration;
+
     @Column(name = "utilize_date")
     private Date utilizeDate;
 
     @Column(name = "location")
     @Enumerated(EnumType.STRING)
     private FilterLocation location;
+
+    public Date getLastRegeneration() {
+        return lastRegeneration;
+    }
+
+    public void setLastRegeneration(Date lastRegeneration) {
+        this.lastRegeneration = lastRegeneration;
+    }
 
     public int getId() {
         return id;

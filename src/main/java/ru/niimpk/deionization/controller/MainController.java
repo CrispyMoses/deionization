@@ -26,6 +26,7 @@ public class MainController {
         ModelAndView mov = new ModelAndView();
         mov.setViewName("home");
         mov.addObject("statement", new StatementCounter());
+        mov.addObject("plant", service.getPlant());
         return mov;
     }
 
@@ -52,7 +53,8 @@ public class MainController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/change-statement")
-    public String addStatement() {
+    public String addStatement(@ModelAttribute StatementCounter sc) {
+        service.changeStatements(sc);
         return "redirect:/home";
     }
 }

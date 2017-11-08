@@ -37,17 +37,13 @@
 					<div class="filter E">Е</div>
 					<div class="filter FSDr">ФСДр</div>
 				</div>
-				<div class="info">
-					<p class="IN1-info">Много всякой инфы про входной 1</p>
-					<p class="IN2-info">про входной второй</p>
-					<p class="PF-info">Про ПФ</p>
-					<p class="DK-info">Про ДК</p>
-					<p class="A1-3-info">А эта часть про А1-3</p>
-					<p class="KF-info">Удивительный КФ</p>
-					<p class="AF-info">НЕ менее удивительный АФ</p>
-					<p class="FSD-info">Наше золотце - ФСД</p>
-					<p class="E-info">Не забывай регенерацию ёмкости, еба</p>
-					<p class="FSDr-info">О, там же тоже есть фильтр. Сколько мы его не меняли?</p>
+				<div class="info" th:each="PoP : ${plant}">
+					<p>
+						<span>${PoP.fullName}</span><br/>
+						<span>Дата загрузки: </span><br/>
+						<span>Воды прошло: </span><br/>
+						<span>Ресурс израсходованн на: </span><br/>
+					</p>
 				</div>
 			</div>
 			<div class="center-block">

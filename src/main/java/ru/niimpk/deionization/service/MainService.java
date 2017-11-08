@@ -1,23 +1,25 @@
 package ru.niimpk.deionization.service;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.niimpk.deionization.DAO.MainDAO;
-import ru.niimpk.deionization.model.condition.Plant;
+import ru.niimpk.deionization.model.condition.*;
 import ru.niimpk.deionization.model.counters.StatementCounter;
 import ru.niimpk.deionization.model.filters.Filter;
+import ru.niimpk.deionization.model.filters.FilterFullName;
 import ru.niimpk.deionization.model.filters.FilterLocation;
 import ru.niimpk.deionization.model.filters.FilterName;
 import ru.niimpk.deionization.model.warehouse.CreateDeleteUtil;
 import ru.niimpk.deionization.model.warehouse.Warehouse;
 
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 @Transactional
 @Service
 public class MainService {
-
-    private static final Logger log = Logger.getLogger(MainService.class);
 
     @Autowired
     private MainDAO dao;
@@ -48,16 +50,68 @@ public class MainService {
 
     public void deleteFiltersFromWarehouse(CreateDeleteUtil cdu) {
         for (int i = 0; i < cdu.getAmount(); i++) {
-            dao.deleteFilterByCriteria(dao.getOlderFilter(cdu.getName(), FilterLocation.WAREHOUSE));
+            dao.deleteFilter(dao.getOlderFilter(cdu.getName(), FilterLocation.WAREHOUSE));
         }
     }
 
-    public void changeStatements(StatementCounter sc) {
 
+    //Зафикисровать показания счётчика во всех рабочих фильтрах
+    public void changeStatements(StatementCounter sc) {
+        dao.persistStatement(sc);
+        changeInStatement(dao.getWorkFilter(PlantMappingName.IN1), sc.getIncomeStatement());
+        changeInStatement(dao.getWorkFilter(PlantMappingName.IN2), sc.getIncomeStatement());
+        changeInStatement(dao.getWorkFilter(PlantMappingName.PF), sc.getIncomeStatement());
+        changeInStatement(dao.getWorkFilter(PlantMappingName.DK), sc.getIncomeStatement());
+        changeInStatement(dao.getWorkFilter(PlantMappingName.A13), sc.getIncomeStatement());
+        changeInStatement(dao.getWorkFilter(PlantMappingName.KF), sc.getOutStatement());
+        changeInStatement(dao.getWorkFilter(PlantMappingName.AF), sc.getOutStatement());
+        changeInStatement(dao.getWorkFilter(PlantMappingName.FSD), sc.getOutStatement());
+        changeInStatement(dao.getWorkFilter(PlantMappingName.FSDr), sc.getOutStatement());
     }
 
-    public Plant getPlant() {
-        Plant plant = new Plant();
+
+    //TODO: опять косяк с датой и выгрузкой фильтров
+    public List<PartOfPlant> getPlant() {
+        List<PartOfPlant> plant = new LinkedList<>();
+        plant.add(createPoP(PlantMappingName.IN1, FilterFullName.IN));
+        plant.add(createPoP(PlantMappingName.IN2, FilterFullName.IN));
+        plant.add(createPoP(PlantMappingName.PF, FilterFullName.PF));
+        plant.add(createPoP(PlantMappingName.DK, FilterFullName.DK));
+        plant.add(createPoP(PlantMappingName.A13, FilterFullName.A13));
+        plant.add(createPoP(PlantMappingName.KF, FilterFullName.KF));
+        plant.add(createPoP(PlantMappingName.AF, FilterFullName.AF));
+        plant.add(createPoP(PlantMappingName.FSD, FilterFullName.FSD));
+        plant.add(createPoP(PlantMappingName.FSDr, FilterFullName.FSD));
+        Reservoir reservoir = dao.getReservoir();
+        plant.add(new PartOfPlant("Накопительная ёмкость", reservoir.getLastRegeneration().getDay()));
         return plant;
+    }
+
+    private void changeInStatement(Filter filter, int change) {
+        filter.setPassedWaterVolume(filter.getPassedWaterVolume() + change);
+        dao.persistFilter(filter);
+    }
+
+    private PartOfPlant createPoP(PlantMappingName name, String fullName) {
+        PartOfPlant pop = new PartOfPlant();
+        Filter filter = dao.getWorkFilter(name);
+        pop.setFilter(filter);
+        pop.setFullName(fullName);
+        pop.setWearPercentage(getWearPercentage(filter));
+        return pop;
+    }
+
+    //TODO: пофиксить разницу дат
+    private int getWearPercentage(Filter filter) {
+        switch (filter.getName()) {
+            case IN: return filter.getPassedWaterVolume()/DataLimit.IN * 100;
+            case PF: return filter.getPassedWaterVolume()/DataLimit.IN * 100;
+            case DK: return new Date().compareTo(filter.getInstallationDate())/DataLimit.IN * 100;
+            case A13: return (new Date().getDay() - filter.getPassedWaterVolume())/DataLimit.IN * 100;
+            case KF: return filter.getPassedWaterVolume()/DataLimit.IN * 100;
+            case AF: return filter.getPassedWaterVolume()/DataLimit.IN * 100;
+            case FSD: return filter.getPassedWaterVolume()/DataLimit.IN * 100;
+            default: return 0;
+        }
     }
 }
