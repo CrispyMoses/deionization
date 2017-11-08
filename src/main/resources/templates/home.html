@@ -40,9 +40,10 @@
 				<div class="info" th:each="PoP : ${plant}">
 					<p>
 						<span>${PoP.fullName}</span><br/>
-						<span>Дата загрузки: </span><br/>
-						<span>Воды прошло: </span><br/>
-						<span>Ресурс израсходованн на: </span><br/>
+						<span>Дата загрузки: PoP.filter.installationDate</span><br/>
+						<span th:if="PoP.filter.name == 'A13' || PoP.filter.name='E'">Дата последней регенерации: ${PoP}</span>
+						<span th:>Воды прошло: ${PoP.filter.passedWaterVolume}</span><br/>
+						<span>Ресурс израсходованн на: ${PoP.wearPercentage}%</span><br/>
 					</p>
 				</div>
 			</div>

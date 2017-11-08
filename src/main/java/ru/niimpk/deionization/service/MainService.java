@@ -81,9 +81,9 @@ public class MainService {
         plant.add(createPoP(PlantMappingName.KF, FilterFullName.KF));
         plant.add(createPoP(PlantMappingName.AF, FilterFullName.AF));
         plant.add(createPoP(PlantMappingName.FSD, FilterFullName.FSD));
-        plant.add(createPoP(PlantMappingName.FSDr, FilterFullName.FSD));
         Reservoir reservoir = dao.getReservoir();
-        plant.add(new PartOfPlant("Накопительная ёмкость", reservoir.getLastRegeneration().getDay()));
+        plant.add(new PartOfPlant("Накопительная ёмкость", 80, reservoir.getLastRegeneration()));
+        plant.add(createPoP(PlantMappingName.FSDr, FilterFullName.FSD));
         return plant;
     }
 

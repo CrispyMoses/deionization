@@ -9,6 +9,8 @@ public class CreateDeleteUtil {
 
     private FilterName name;
     private int amount;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
     public FilterName getName() {
@@ -27,7 +29,6 @@ public class CreateDeleteUtil {
         this.amount = amount;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getDate() {
         return date;
     }
