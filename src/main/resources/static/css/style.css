@@ -57,6 +57,11 @@ ul {
 	background-color: #0bda51;
 }
 
+p {
+	margin: 0;
+	padding: 0;
+}
+
 .DK {
 	height: 50px;
 	line-height: 3;

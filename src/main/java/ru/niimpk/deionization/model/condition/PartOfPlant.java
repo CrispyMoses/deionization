@@ -1,16 +1,16 @@
 package ru.niimpk.deionization.model.condition;
 
-import org.springframework.format.annotation.DateTimeFormat;
+
 import ru.niimpk.deionization.model.filters.Filter;
 
 import java.util.Date;
 
 public class PartOfPlant {
     private Filter filter;
+    private Date installationDate;
+    private int passedWaterVolume;
     private String fullName;
     private int wearPercentage;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date lastRegeneration;
 
 
@@ -21,6 +21,22 @@ public class PartOfPlant {
         this.fullName = fullName;
         this.wearPercentage = wearPercentage;
         this.lastRegeneration = lastRegeneration;
+    }
+
+    public Date getInstallationDate() {
+        return installationDate;
+    }
+
+    public void setInstallationDate(Date installationDate) {
+        this.installationDate = installationDate;
+    }
+
+    public int getPassedWaterVolume() {
+        return passedWaterVolume;
+    }
+
+    public void setPassedWaterVolume(int passedWaterVolume) {
+        this.passedWaterVolume = passedWaterVolume;
     }
 
     public Date getLastRegeneration() {

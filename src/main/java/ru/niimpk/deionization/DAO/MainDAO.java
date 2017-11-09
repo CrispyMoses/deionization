@@ -3,6 +3,7 @@ package ru.niimpk.deionization.DAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.niimpk.deionization.model.condition.PlantMapping;
 import ru.niimpk.deionization.model.condition.PlantMappingName;
 import ru.niimpk.deionization.model.condition.Reservoir;
 import ru.niimpk.deionization.model.counters.StatementCounter;
@@ -46,9 +47,9 @@ public class MainDAO {
     }
 
     public Filter getWorkFilter(PlantMappingName name) {
-        return em.createQuery("select pm.filter from PlantMapping pm where pm.name = :name", Filter.class)
+        return em.createQuery("select pm from PlantMapping pm where pm.name = :name", PlantMapping.class)
                 .setParameter("name", name)
-                .getSingleResult();
+                .getResultList().get(0).getFilter();
     }
 
     public void persistStatement(StatementCounter sc) {em.persist(sc);}

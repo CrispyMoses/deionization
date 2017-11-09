@@ -1,5 +1,6 @@
 package ru.niimpk.deionization.service;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,8 @@ import java.util.List;
 @Transactional
 @Service
 public class MainService {
+
+    private static final Logger logger = Logger.getLogger(MainService.class);
 
     @Autowired
     private MainDAO dao;
@@ -103,6 +106,7 @@ public class MainService {
         return pop;
     }
 
+    //TODO: поправить расчёт (дело в типах инт и флоат)
     private int getWearPercentage(Filter filter) {
         long today = new Date().getTime();
         switch (filter.getName()) {

@@ -11,11 +11,22 @@ import java.util.Date;
 public class Reservoir {
 
     @Id
+    @Column(name = "id")
+    private int id;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "last_regeneration")
     private Date lastRegeneration;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

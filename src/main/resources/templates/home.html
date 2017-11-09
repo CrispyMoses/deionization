@@ -37,15 +37,14 @@
 					<div class="filter E">Е</div>
 					<div class="filter FSDr">ФСДр</div>
 				</div>
-				<div class="info" th:each="PoP:${plant}">
-					<p>
-						<span>${PoP.fullName}</span><br/>
-						<span th:if="PoP.fullName=='Накопительная ёмкость'">Дата последней регенерации: ${PoP.lastRegeneration}</span>
-						<div th:if="PoP.fullName!='Накопительная ёмкость'">
-							<span>Дата загрузки: PoP.filter.installationDate</span><br/>
-							<span th:>Воды прошло: ${PoP.filter.passedWaterVolume}</span><br/>
-						</div>
-						<span>Ресурс израсходованн на: ${PoP.wearPercentage}%</span><br/>
+				<div class="info">
+					<p th:each="PoP : ${plant}">
+						<span th:text="${PoP.fullName}"></span><br/>
+						<span th:text="${PoP.lastRegeneration}">Дата последней регенерации:</span><br/>
+						<span>Дата загрузки: ${PoP.filter.installationDate}</span><br/>
+						<span>Воды прошло: ${PoP.filter.passedWaterVolume}</span><br/>
+						<span>Ресурс израсходован на </span>
+						<span th:text="${PoP.wearPercentage}">текст</span><br/>
 					</p>
 				</div>
 			</div>
