@@ -14,6 +14,7 @@ import ru.niimpk.deionization.model.filters.FilterName;
 import ru.niimpk.deionization.model.warehouse.CreateDeleteUtil;
 import ru.niimpk.deionization.model.warehouse.Warehouse;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,22 +61,25 @@ public class MainService {
 
     //Зафикисровать показания счётчика во всех рабочих фильтрах
     public void changeStatements(StatementCounter sc) {
+        StatementCounter latestSC = dao.getLastStatement();
         dao.persistStatement(sc);
-        changeInStatement(dao.getWorkFilter(PlantMappingName.IN1), sc.getIncomeStatement());
-        changeInStatement(dao.getWorkFilter(PlantMappingName.IN2), sc.getIncomeStatement());
-        changeInStatement(dao.getWorkFilter(PlantMappingName.PF), sc.getIncomeStatement());
-        changeInStatement(dao.getWorkFilter(PlantMappingName.DK), sc.getIncomeStatement());
-        changeInStatement(dao.getWorkFilter(PlantMappingName.A13), sc.getIncomeStatement());
-        changeInStatement(dao.getWorkFilter(PlantMappingName.KF), sc.getOutStatement());
-        changeInStatement(dao.getWorkFilter(PlantMappingName.AF), sc.getOutStatement());
-        changeInStatement(dao.getWorkFilter(PlantMappingName.FSD), sc.getOutStatement());
-        changeInStatement(dao.getWorkFilter(PlantMappingName.FSDr), sc.getOutStatement());
+        changeStatement(dao.getWorkFilter(PlantMappingName.IN1), sc.getIncomeStatement() - latestSC.getIncomeStatement());
+        changeStatement(dao.getWorkFilter(PlantMappingName.IN2), sc.getIncomeStatement() - latestSC.getIncomeStatement());
+        changeStatement(dao.getWorkFilter(PlantMappingName.PF), sc.getIncomeStatement() - latestSC.getIncomeStatement());
+        changeStatement(dao.getWorkFilter(PlantMappingName.DK), sc.getIncomeStatement() - latestSC.getIncomeStatement());
+        changeStatement(dao.getWorkFilter(PlantMappingName.A13), sc.getIncomeStatement() - latestSC.getIncomeStatement());
+        changeStatement(dao.getWorkFilter(PlantMappingName.KF), sc.getOutStatement() - latestSC.getOutStatement());
+        changeStatement(dao.getWorkFilter(PlantMappingName.AF), sc.getOutStatement() - latestSC.getOutStatement());
+        changeStatement(dao.getWorkFilter(PlantMappingName.FSD), sc.getOutStatement() - latestSC.getOutStatement());
+        changeStatement(dao.getWorkFilter(PlantMappingName.FSDr), sc.getOutStatement() - latestSC.getOutStatement());
     }
 
 
 
     //TODO: Фсд регенерации всё ещё не работает нормально
     public List<PartOfPlant> getPlant() {
+        long today = new Date().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         List<PartOfPlant> plant = new LinkedList<>();
         plant.add(createPoP(PlantMappingName.IN1, FilterFullName.IN));
         plant.add(createPoP(PlantMappingName.IN2, FilterFullName.IN));
@@ -86,37 +90,42 @@ public class MainService {
         plant.add(createPoP(PlantMappingName.AF, FilterFullName.AF));
         plant.add(createPoP(PlantMappingName.FSD, FilterFullName.FSD));
         Reservoir reservoir = dao.getReservoir();
-        plant.add(new PartOfPlant("Накопительная ёмкость", 80, reservoir.getLastRegeneration()));
+        PartOfPlant pop = new PartOfPlant("Накопительная ёмкость",
+                (int) ((float) ((today - reservoir.getLastRegeneration().getTime()))/DataLimit.E * 100),
+                df.format(reservoir.getLastRegeneration()));
+        pop.setLastRegeneration(df.format(reservoir.getLastRegeneration()));
+        plant.add(pop);
         plant.add(createPoP(PlantMappingName.FSDr, FilterFullName.FSD));
         return plant;
     }
 
-    private void changeInStatement(Filter filter, int change) {
+    private void changeStatement(Filter filter, int change) {
         filter.setPassedWaterVolume(filter.getPassedWaterVolume() + change);
         dao.persistFilter(filter);
     }
 
     private PartOfPlant createPoP(PlantMappingName name, String fullName) {
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         PartOfPlant pop = new PartOfPlant();
         Filter filter = dao.getWorkFilter(name);
-        pop.setFilter(filter);
+        pop.setInstallationDate(df.format(filter.getInstallationDate()));
+        pop.setPassedWaterVolume(filter.getPassedWaterVolume());
         pop.setFullName(fullName);
-        if (filter.getName().equals(FilterName.A13)) pop.setLastRegeneration(filter.getLastRegeneration());
+        if (filter.getName().equals(FilterName.A13)) pop.setLastRegeneration(df.format(filter.getLastRegeneration()));
         pop.setWearPercentage(getWearPercentage(filter));
         return pop;
     }
 
-    //TODO: поправить расчёт (дело в типах инт и флоат)
     private int getWearPercentage(Filter filter) {
         long today = new Date().getTime();
         switch (filter.getName()) {
-            case IN: return filter.getPassedWaterVolume()/DataLimit.IN * 100;
-            case PF: return filter.getPassedWaterVolume()/DataLimit.PF * 100;
-            case DK: return (int) ((today - filter.getInstallationDate().getTime())/DataLimit.DK * 100);
-            case A13: return (int) ((today - filter.getPassedWaterVolume())/DataLimit.A13 * 100);
-            case KF: return filter.getPassedWaterVolume()/DataLimit.KF * 100;
-            case AF: return filter.getPassedWaterVolume()/DataLimit.AF * 100;
-            case FSD: return filter.getPassedWaterVolume()/DataLimit.FSD * 100;
+            case IN: return (int) ((float) (filter.getPassedWaterVolume())/DataLimit.IN * 100);
+            case PF: return (int) ((float) (filter.getPassedWaterVolume())/DataLimit.PF * 100);
+            case DK: return (int) ((float) ((today - filter.getInstallationDate().getTime()))/DataLimit.DK * 100);
+            case A13: return (int) ((float) ((today - filter.getLastRegeneration().getTime()))/DataLimit.A13 * 100);
+            case KF: return (int) ((float) (filter.getPassedWaterVolume())/DataLimit.KF * 100);
+            case AF: return (int) ((float) (filter.getPassedWaterVolume())/DataLimit.AF * 100);
+            case FSD: return (int) ((float) (filter.getPassedWaterVolume())/DataLimit.FSD * 100);
             default: return 0;
         }
     }

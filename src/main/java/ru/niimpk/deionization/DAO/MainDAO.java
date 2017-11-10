@@ -54,6 +54,11 @@ public class MainDAO {
 
     public void persistStatement(StatementCounter sc) {em.persist(sc);}
 
+    public StatementCounter getLastStatement() {
+        return em.createQuery("select sc from StatementCounter sc order by sc.date desc", StatementCounter.class)
+                .getResultList().get(0);
+    }
+
     public Reservoir getReservoir() {
         return em.find(Reservoir.class, new Integer(1));
     }

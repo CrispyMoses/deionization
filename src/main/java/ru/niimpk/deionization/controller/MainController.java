@@ -55,6 +55,6 @@ public class MainController {
     @RequestMapping(method = RequestMethod.POST, value = "/change-statement")
     public String addStatement(@ModelAttribute StatementCounter sc) {
         service.changeStatements(sc);
-        return "redirect:/home";
+        return "redirect:/";
     }
 }

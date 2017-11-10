@@ -1,33 +1,28 @@
 package ru.niimpk.deionization.model.condition;
 
 
-import ru.niimpk.deionization.model.filters.Filter;
-
-import java.util.Date;
-
 public class PartOfPlant {
-    private Filter filter;
-    private Date installationDate;
+    private String installationDate;
     private int passedWaterVolume;
     private String fullName;
     private int wearPercentage;
-    private Date lastRegeneration;
+    private String lastRegeneration;
 
 
     public PartOfPlant() {
     }
 
-    public PartOfPlant(String fullName, int wearPercentage, Date lastRegeneration) {
+    public PartOfPlant(String fullName, int wearPercentage, String lastRegeneration) {
         this.fullName = fullName;
         this.wearPercentage = wearPercentage;
         this.lastRegeneration = lastRegeneration;
     }
 
-    public Date getInstallationDate() {
+    public String getInstallationDate() {
         return installationDate;
     }
 
-    public void setInstallationDate(Date installationDate) {
+    public void setInstallationDate(String installationDate) {
         this.installationDate = installationDate;
     }
 
@@ -37,22 +32,6 @@ public class PartOfPlant {
 
     public void setPassedWaterVolume(int passedWaterVolume) {
         this.passedWaterVolume = passedWaterVolume;
-    }
-
-    public Date getLastRegeneration() {
-        return lastRegeneration;
-    }
-
-    public void setLastRegeneration(Date lastRegeneration) {
-        this.lastRegeneration = lastRegeneration;
-    }
-
-    public Filter getFilter() {
-        return filter;
-    }
-
-    public void setFilter(Filter filter) {
-        this.filter = filter;
     }
 
     public String getFullName() {
@@ -69,5 +48,13 @@ public class PartOfPlant {
 
     public void setWearPercentage(int wearPercentage) {
         this.wearPercentage = wearPercentage;
+    }
+
+    public String getLastRegeneration() {
+        return lastRegeneration;
+    }
+
+    public void setLastRegeneration(String lastRegeneration) {
+        this.lastRegeneration = lastRegeneration;
     }
 }
