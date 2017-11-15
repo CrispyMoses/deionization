@@ -8,4 +8,5 @@ public class FilterFullName {
     public static final String KF = "Картридж фильтра катионного КФ ВВ20";
     public static final String AF = "Картридж фильтра анионного АФ ВВ20";
     public static final String FSD = "Картридж фильтра смешанного действия ФСД ВВ20";
+    public static final String E = "Накопительная ёмкость";
 }

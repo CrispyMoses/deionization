@@ -1,13 +1,17 @@
 package ru.niimpk.deionization.controller;
 
 import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import ru.niimpk.deionization.model.condition.PlantMappingName;
 import ru.niimpk.deionization.model.counters.StatementCounter;
+import ru.niimpk.deionization.model.filters.FilterName;
 import ru.niimpk.deionization.model.warehouse.CreateDeleteUtil;
 import ru.niimpk.deionization.service.MainService;
 
@@ -55,6 +59,14 @@ public class MainController {
     @RequestMapping(method = RequestMethod.POST, value = "/change-statement")
     public String addStatement(@ModelAttribute StatementCounter sc) {
         service.changeStatements(sc);
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/replace/{plantMappingName}/{filterName}")
+    public String replaceFilter(@PathVariable("plantMappingName") String plantMappingName, @PathVariable("filterName") String filterName) {
+        if (!(filterName.equals("null")))
+            service.replaceFilter(PlantMappingName.valueOf(plantMappingName), FilterName.valueOf(filterName));
+        else service.replaceFilter(PlantMappingName.valueOf(plantMappingName), null);
         return "redirect:/";
     }
 }

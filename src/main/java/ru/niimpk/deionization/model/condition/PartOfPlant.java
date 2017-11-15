@@ -7,6 +7,8 @@ public class PartOfPlant {
     private String fullName;
     private int wearPercentage;
     private String lastRegeneration;
+    private String plantMappingName;
+    private String filterName;
 
 
     public PartOfPlant() {
@@ -16,6 +18,22 @@ public class PartOfPlant {
         this.fullName = fullName;
         this.wearPercentage = wearPercentage;
         this.lastRegeneration = lastRegeneration;
+    }
+
+    public String getFilterName() {
+        return filterName;
+    }
+
+    public void setFilterName(String filterName) {
+        this.filterName = filterName;
+    }
+
+    public String getPlantMappingName() {
+        return plantMappingName;
+    }
+
+    public void setPlantMappingName(String plantMappingName) {
+        this.plantMappingName = plantMappingName;
     }
 
     public String getInstallationDate() {

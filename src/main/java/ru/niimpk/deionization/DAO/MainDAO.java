@@ -1,6 +1,7 @@
 package ru.niimpk.deionization.DAO;
 
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.niimpk.deionization.model.condition.PlantMapping;
@@ -12,10 +13,13 @@ import ru.niimpk.deionization.model.filters.FilterLocation;
 import ru.niimpk.deionization.model.filters.FilterName;
 
 import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 
 @Repository
 public class MainDAO {
+
+    Logger log = Logger.getLogger(MainDAO.class);
 
     @Autowired
     private EntityManager em;
@@ -64,4 +68,36 @@ public class MainDAO {
     }
 
     public void persistReservoir(Reservoir reservoir) {em.persist(reservoir);}
+
+
+    public void updateRegenerateDate(PlantMappingName name, Date date) {
+        if (name.equals(PlantMappingName.A13))
+            em.createQuery("update Filter f set f.lastRegeneration = :date where f.location = :location and f.name = :name")
+                    .setParameter("date", date)
+                    .setParameter("location", FilterLocation.WORK)
+                    .setParameter("name", FilterName.A13)
+                    .executeUpdate();
+        else if (name.equals(PlantMappingName.E))
+            em.createQuery("update Reservoir r set r.lastRegeneration = :date where r.id = :id")
+                    .setParameter("id", new Integer(1))
+                    .setParameter("date", date)
+                    .executeUpdate();
+    }
+
+    public void utilizeFilter(Filter filter, Date date) {
+        em.createQuery("update Filter f set f.location =:location, f.utilizeDate = :date where f.id = :id")
+                .setParameter("location", FilterLocation.UTILIZED)
+                .setParameter("date", date)
+                .setParameter("id", filter.getId())
+                .executeUpdate();
+    }
+
+    public void goToWork(Filter filter, Date date) {
+        em.createQuery("update Filter f set f.location = :location, f.installationDate = :date, f.passedWaterVolume = :passed where f.id = :id")
+                .setParameter("location", FilterLocation.WORK)
+                .setParameter("date", date)
+                .setParameter("passed", 0)
+                .setParameter("id", filter.getId())
+                .executeUpdate();
+    }
 }

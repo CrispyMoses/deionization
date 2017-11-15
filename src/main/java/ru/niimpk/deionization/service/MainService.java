@@ -75,10 +75,9 @@ public class MainService {
     }
 
 
-
-    //TODO: Фсд регенерации всё ещё не работает нормально
     public List<PartOfPlant> getPlant() {
         long today = new Date().getTime();
+        long msPerDay = 1000 * 60 *60 * 24;
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         List<PartOfPlant> plant = new LinkedList<>();
         plant.add(createPoP(PlantMappingName.IN1, FilterFullName.IN));
@@ -90,10 +89,11 @@ public class MainService {
         plant.add(createPoP(PlantMappingName.AF, FilterFullName.AF));
         plant.add(createPoP(PlantMappingName.FSD, FilterFullName.FSD));
         Reservoir reservoir = dao.getReservoir();
-        PartOfPlant pop = new PartOfPlant("Накопительная ёмкость",
-                (int) ((float) ((today - reservoir.getLastRegeneration().getTime()))/DataLimit.E * 100),
+        PartOfPlant pop = new PartOfPlant(FilterFullName.E,
+                (int) ((float) ((today - reservoir.getLastRegeneration().getTime()))/(msPerDay * DataLimit.E) * 100),
                 df.format(reservoir.getLastRegeneration()));
         pop.setLastRegeneration(df.format(reservoir.getLastRegeneration()));
+        pop.setPlantMappingName(PlantMappingName.E.toString());
         plant.add(pop);
         plant.add(createPoP(PlantMappingName.FSDr, FilterFullName.FSD));
         return plant;
@@ -111,22 +111,36 @@ public class MainService {
         pop.setInstallationDate(df.format(filter.getInstallationDate()));
         pop.setPassedWaterVolume(filter.getPassedWaterVolume());
         pop.setFullName(fullName);
+        pop.setPlantMappingName(name.toString());
+        pop.setFilterName(filter.getName().toString());
         if (filter.getName().equals(FilterName.A13)) pop.setLastRegeneration(df.format(filter.getLastRegeneration()));
-        pop.setWearPercentage(getWearPercentage(filter));
+        pop.setWearPercentage(getWearPercentage(filter, name));
         return pop;
     }
 
-    private int getWearPercentage(Filter filter) {
+    private int getWearPercentage(Filter filter, PlantMappingName name) {
         long today = new Date().getTime();
+        long msPerDay = 1000 * 60 *60 * 24;
         switch (filter.getName()) {
             case IN: return (int) ((float) (filter.getPassedWaterVolume())/DataLimit.IN * 100);
             case PF: return (int) ((float) (filter.getPassedWaterVolume())/DataLimit.PF * 100);
-            case DK: return (int) ((float) ((today - filter.getInstallationDate().getTime()))/DataLimit.DK * 100);
-            case A13: return (int) ((float) ((today - filter.getLastRegeneration().getTime()))/DataLimit.A13 * 100);
+            case DK: return (int) ((float) ((today - filter.getInstallationDate().getTime()))/(msPerDay * DataLimit.DK) * 100);
+            case A13: return (int) ((float) ((today - filter.getLastRegeneration().getTime()))/(msPerDay * DataLimit.A13) * 100);
             case KF: return (int) ((float) (filter.getPassedWaterVolume())/DataLimit.KF * 100);
             case AF: return (int) ((float) (filter.getPassedWaterVolume())/DataLimit.AF * 100);
-            case FSD: return (int) ((float) (filter.getPassedWaterVolume())/DataLimit.FSD * 100);
+            case FSD: if (name == PlantMappingName.FSD) return (int) ((float) (filter.getPassedWaterVolume())/DataLimit.FSD * 100);
+                      else return (int) ((float) (filter.getPassedWaterVolume())/DataLimit.FSDr * 100);
             default: return 0;
+        }
+    }
+
+
+    public void replaceFilter(PlantMappingName name, FilterName filterName) {
+        if (name.equals(PlantMappingName.E) || name.equals(PlantMappingName.A13)) {
+            dao.updateRegenerateDate(name, new Date());
+        } else {
+            dao.utilizeFilter(dao.getWorkFilter(name), new Date());
+            dao.goToWork(dao.getOlderFilter(filterName, FilterLocation.WAREHOUSE), new Date());
         }
     }
 }

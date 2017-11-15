@@ -9,5 +9,6 @@ public enum PlantMappingName {
     KF,
     AF,
     FSD,
+    E,
     FSDr
 }
