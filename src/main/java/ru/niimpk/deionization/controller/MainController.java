@@ -64,9 +64,11 @@ public class MainController {
 
     @RequestMapping(value = "/replace/{plantMappingName}/{filterName}")
     public String replaceFilter(@PathVariable("plantMappingName") String plantMappingName, @PathVariable("filterName") String filterName) {
-        if (!(filterName.equals("null")))
-            service.replaceFilter(PlantMappingName.valueOf(plantMappingName), FilterName.valueOf(filterName));
-        else service.replaceFilter(PlantMappingName.valueOf(plantMappingName), null);
+        try {
+            if (!(filterName.equals("null")))
+                service.replaceFilter(PlantMappingName.valueOf(plantMappingName), FilterName.valueOf(filterName));
+            else service.replaceFilter(PlantMappingName.valueOf(plantMappingName), null);
+        } catch (IndexOutOfBoundsException e) {return "redirect:/";}
         return "redirect:/";
     }
 }

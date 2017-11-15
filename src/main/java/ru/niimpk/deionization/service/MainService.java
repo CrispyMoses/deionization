@@ -135,12 +135,14 @@ public class MainService {
     }
 
 
-    public void replaceFilter(PlantMappingName name, FilterName filterName) {
+    public void replaceFilter(PlantMappingName name, FilterName filterName) throws IndexOutOfBoundsException {
         if (name.equals(PlantMappingName.E) || name.equals(PlantMappingName.A13)) {
             dao.updateRegenerateDate(name, new Date());
         } else {
             dao.utilizeFilter(dao.getWorkFilter(name), new Date());
-            dao.goToWork(dao.getOlderFilter(filterName, FilterLocation.WAREHOUSE), new Date());
+            Filter filter = dao.getOlderFilter(filterName, FilterLocation.WAREHOUSE);
+            dao.goToWork(filter, new Date());
+            dao.updateFilterMapping(filter, name);
         }
     }
 }

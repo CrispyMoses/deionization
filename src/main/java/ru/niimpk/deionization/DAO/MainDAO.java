@@ -56,6 +56,13 @@ public class MainDAO {
                 .getResultList().get(0).getFilter();
     }
 
+    public void updateFilterMapping(Filter filter, PlantMappingName name) {
+        em.createQuery("update PlantMapping pm set pm.filter = :filter where pm.name = :name")
+                .setParameter("filter", filter)
+                .setParameter("name", name)
+                .executeUpdate();
+    }
+
     public void persistStatement(StatementCounter sc) {em.persist(sc);}
 
     public StatementCounter getLastStatement() {
