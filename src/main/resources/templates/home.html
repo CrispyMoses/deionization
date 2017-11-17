@@ -17,7 +17,7 @@
 					<ul class="nav nav-tabs">
 						<li role="presentation" class="active"><a href="#">Главная</a></li>
 						<li role="presentation"><a href="warehouse.html">Склад</a></li>
-						<li role="presentation"><a href="#">Отчёты</a></li>
+						<li role="presentation"><a href="statistic.html">Отчёты</a></li>
 						<li role="presentation"><a href="#">Документы</a></li>
 					</ul>
 				</div>
@@ -28,12 +28,12 @@
 				<div class="device center-block">
 					<div class="filter IN1">Вх1</div>
 					<div class="filter IN2">Вх2</div>
-					<div class="filter PF red">ПФ</div>
+					<div class="filter PF">ПФ</div>
 					<div class="filter DK">ДК</div>
 					<div class="filter A1-3">А1-3</div>
 					<div class="filter KF">КФ</div>
 					<div class="filter AF">АФ</div>
-					<div class="filter FSD yellow">ФСД</div>
+					<div class="filter FSD">ФСД</div>
 					<div class="filter E">Е</div>
 					<div class="filter FSDr">ФСДр</div>
 				</div>
@@ -50,7 +50,7 @@
 						<span th:text="${PoP.passedWaterVolume}"></span>
 						<br/>
 						<span>Ресурс израсходован на: </span>
-						<span th:text="${PoP.wearPercentage}">текст</span><span>%</span><br/>
+						<span class="wear-percentage" th:text="${PoP.wearPercentage}"></span><span>%</span><br/>
 						<a type="button" class="btn btn-primary" th:href="@{'/replace/' + ${PoP.plantMappingName} + '/' + ${PoP.filterName}}">Замена/Регенерация</a>
 					</p>
 				</div>

@@ -85,6 +85,10 @@ p {
 	background-color: red;
 }
 
+.shadow {
+	box-shadow: 3px 3px 15px 2px black;
+}
+
 .info {
 	text-align: center;
 	min-height: 30px;
@@ -98,4 +102,21 @@ p {
 
 table {
 	margin-top: 30px;
+}
+
+th {
+	text-align: center;
+}
+
+td {
+	text-align: center;
+}
+
+.statistic {
+	margin-top: 50px;
+}
+
+.statistic-data {
+	margin-top: 50px;
+	font-size: 17px;
 }

@@ -107,4 +107,10 @@ public class MainDAO {
                 .setParameter("id", filter.getId())
                 .executeUpdate();
     }
+
+    public List<StatementCounter> getStatement(Date before, Date after) {
+        return em.createQuery("select sc from StatementCounter sc where sc.date <= :before and sc.date >= :after order by sc.date desc", StatementCounter.class)
+                .setParameter("before", before)
+                .setParameter("after", after).getResultList();
+    }
 }

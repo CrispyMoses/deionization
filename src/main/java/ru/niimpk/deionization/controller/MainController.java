@@ -3,19 +3,20 @@ package ru.niimpk.deionization.controller;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.niimpk.deionization.model.condition.PlantMappingName;
 import ru.niimpk.deionization.model.counters.StatementCounter;
+import ru.niimpk.deionization.model.counters.StatementDateLimit;
 import ru.niimpk.deionization.model.filters.FilterName;
 import ru.niimpk.deionization.model.warehouse.CreateDeleteUtil;
 import ru.niimpk.deionization.service.MainService;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 public class MainController {
@@ -70,5 +71,15 @@ public class MainController {
             else service.replaceFilter(PlantMappingName.valueOf(plantMappingName), null);
         } catch (IndexOutOfBoundsException e) {return "redirect:/";}
         return "redirect:/";
+    }
+
+
+    @RequestMapping(value = "/statistic")
+    public ModelAndView statistic(@ModelAttribute StatementDateLimit sdl) {
+        ModelAndView mov = new ModelAndView("statistic");
+        mov.addObject("dateLimit", new StatementDateLimit());
+        if (sdl.getAfter() != null)
+            mov.addObject("statements", service.getStatementList(sdl));
+        return mov;
     }
 }

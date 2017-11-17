@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}"/>
+    <title>Вёрсточка</title>
+</head>
+<body>
+<header class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="pull-right page-header">
+                <h2>Контроль установки деионизации</h2>
+            </div>
+        </div>
+        <div class="wrapper">
+            <ul class="nav nav-tabs">
+                <li role="presentation"><a th:href="@{/}">Главная</a></li>
+                <li role="presentation"><a href="warehouse.html">Склад</a></li>
+                <li role="presentation" class="active"><a href="statistic.html">Отчёты</a></li>
+                <li role="presentation"><a href="#">Документы</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<div class="container content">
+    <div class="statistic">
+        <h2>Показатели счётчков в период: </h2>
+        <form class="form-inline" th:action="@{/statistic}" th:object="${dateLimit}" method="post" action="#">
+            <div class="form-group">
+                <label for="date-from">От</label>
+                <input type="date" class="form-control" id="date-from" placeholder="Дата от" th:field="*{after}"/>
+            </div>
+            <div class="form-group">
+                <label for="date-to">До</label>
+                <input type="date" class="form-control" id="date-to" placeholder="Дата до" th:field="*{before}"/>
+            </div>
+            <button type="submit" class="btn btn-default">Получить данные</button>
+        </form>
+
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Дата замера</th>
+                        <th>Показания входного датчика</th>
+                        <th>Показания выходного датчика</th>
+                    </tr>
+                    <tr th:each="statement : ${statements}">
+                        <td th:text="${#dates.format(statement.date, 'dd.MM.yyyy')}"></td>
+                        <td th:text="${statement.incomeStatement}"></td>
+                        <td th:text="${statement.outStatement}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="statistic-data col-md-6">
+                <span>Расход воды в месяц: </span><span>9754л</span>
+                <br/>
+                <span>Расход воды в рабочий день:</span><span>358л</span>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h2>Необходимое количество фильтров с данным расходом воды</h2>
+        <a class="btn btn-primary" role="button" data-toggle="collapse" href="#3-month" aria-expanded="false" aria-controls="collapseExample">
+            На 3 месяца
+        </a>
+        <a class="btn btn-primary" role="button" data-toggle="collapse" href="#6-month" aria-expanded="false" aria-controls="collapseExample">
+            На 6 месяцев
+        </a>
+        <a class="btn btn-primary" role="button" data-toggle="collapse" href="#year" aria-expanded="false" aria-controls="collapseExample">
+            На  год
+        </a>
+        <div class="collapse" id="3-month">
+            <div class="well">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Имя фильтра</th>
+                        <th>Количество, необходимое для работы</th>
+                        <th>В наличии на складе</th>
+                    </tr>
+                    <tr>
+                        <td>ФСД</td>
+                        <td>2</td>
+                        <td>4</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="collapse" id="6-month">
+            <div class="well">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Имя фильтра</th>
+                        <th>Количество, необходимое для работы</th>
+                        <th>В наличии на складе</th>
+                    </tr>
+                    <tr>
+                        <td>ФСД</td>
+                        <td>2</td>
+                        <td>4</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="collapse" id="year">
+            <div class="well">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Имя фильтра</th>
+                        <th>Количество, необходимое для работы</th>
+                        <th>В наличии на складе</th>
+                    </tr>
+                    <tr>
+                        <td>ФСД</td>
+                        <td>2</td>
+                        <td>4</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    АО "НИИМП-К"
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.js" th:src="@{js/bootstrap.js}"></script>
+<script type="text/javascript" src="../static/js/npm.js"></script>
+</body>
+</html>

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.niimpk.deionization.DAO.MainDAO;
 import ru.niimpk.deionization.model.condition.*;
 import ru.niimpk.deionization.model.counters.StatementCounter;
+import ru.niimpk.deionization.model.counters.StatementDateLimit;
 import ru.niimpk.deionization.model.filters.Filter;
 import ru.niimpk.deionization.model.filters.FilterFullName;
 import ru.niimpk.deionization.model.filters.FilterLocation;
@@ -144,5 +145,13 @@ public class MainService {
             dao.goToWork(filter, new Date());
             dao.updateFilterMapping(filter, name);
         }
+    }
+
+
+    public List<StatementCounter> getStatementList(StatementDateLimit sdl) {
+        List<StatementCounter> list = dao.getStatement(sdl.getBefore(), sdl.getAfter());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        logger.info(sdf.format(sdl.getAfter()) + sdf.format(sdl.getBefore()));
+        return  list;
     }
 }
