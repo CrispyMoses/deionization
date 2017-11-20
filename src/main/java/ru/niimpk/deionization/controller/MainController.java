@@ -17,6 +17,7 @@ import ru.niimpk.deionization.service.MainService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -78,8 +79,11 @@ public class MainController {
     public ModelAndView statistic(@ModelAttribute StatementDateLimit sdl) {
         ModelAndView mov = new ModelAndView("statistic");
         mov.addObject("dateLimit", new StatementDateLimit());
-        if (sdl.getAfter() != null)
-            mov.addObject("statements", service.getStatementList(sdl));
+        if (sdl.getAfter() != null) {
+            List<StatementCounter> list = service.getStatementList(sdl);
+            mov.addObject("discharge", service.getDischarge(list));
+            mov.addObject("statements", list);
+        }
         return mov;
     }
 }
