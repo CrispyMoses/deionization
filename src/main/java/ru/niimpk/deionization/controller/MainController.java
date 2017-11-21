@@ -1,11 +1,8 @@
 package ru.niimpk.deionization.controller;
 
 import org.apache.log4j.Logger;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.niimpk.deionization.model.condition.PlantMappingName;
@@ -15,8 +12,6 @@ import ru.niimpk.deionization.model.filters.FilterName;
 import ru.niimpk.deionization.model.warehouse.CreateDeleteUtil;
 import ru.niimpk.deionization.service.MainService;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -32,7 +27,7 @@ public class MainController {
         ModelAndView mov = new ModelAndView();
         mov.setViewName("home");
         mov.addObject("statement", new StatementCounter());
-        mov.addObject("plant", service.getPlant());
+        mov.addObject("plant", service.getPatrsOfPlant());
         return mov;
     }
 
@@ -82,6 +77,7 @@ public class MainController {
         if (sdl.getAfter() != null) {
             List<StatementCounter> list = service.getStatementList(sdl);
             mov.addObject("discharge", service.getDischarge(list));
+            mov.addObject("warehouse", service.getWarehouse());
             mov.addObject("statements", list);
         }
         return mov;

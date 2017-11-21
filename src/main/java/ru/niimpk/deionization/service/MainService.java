@@ -77,7 +77,7 @@ public class MainService {
     }
 
 
-    public List<PartOfPlant> getPlant() {
+    public List<PartOfPlant> getPatrsOfPlant() {
         long today = new Date().getTime();
         long msPerDay = 1000 * 60 *60 * 24;
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
@@ -164,16 +164,19 @@ public class MainService {
         int outWaterPassed = list.get(0).getOutStatement() - list.get(list.size() - 1).getOutStatement();
         int waterPerDay = (int) (outWaterPassed/(daysLeft - Math.floor((daysLeft  * 2)/7)));
         int waterPerMonth =  waterPerDay * 22;
+        wd.setDischargePerDay(waterPerDay);
+        wd.setDischargePerMonth(waterPerMonth);
 
-        int KF = (int) Math.ceil(DataLimit.KF/ outWaterPassed);
+        int KF = (int) Math.ceil((float)outWaterPassed / DataLimit.KF);
         wd.setKF(KF);
         wd.setAF(KF);
         wd.setFSD(KF + 1);
-        wd.setIN((int) Math.ceil(DataLimit.IN/ inWaterPassed) * 2);
-        wd.setPF((int) Math.ceil(DataLimit.PF/ inWaterPassed));
-        wd.setDischargePerDay(waterPerDay);
-        wd.setDischargePerMonth(waterPerMonth);
-        wd.setWh(getWarehouse());
+        wd.setIN((int) Math.ceil((float) inWaterPassed / DataLimit.IN) * 2);
+        logger.info(wd.getIN());
+        wd.setPF((int) Math.ceil((float) inWaterPassed / DataLimit.PF));
         return wd;
+    }
+
+    private void setWaterDischarge() {
     }
 }

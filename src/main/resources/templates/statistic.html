@@ -69,48 +69,109 @@
                 </a>
                 <div class="collapse" id="3-month">
                     <div class="well">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" th:if="${discharge != null}">
                             <tr>
                                 <th>Имя фильтра</th>
                                 <th>Количество, необходимое для работы</th>
                                 <th>В наличии на складе</th>
                             </tr>
                             <tr>
+                                <td>ВХ</td>
+                                <td th:text="${discharge.IN * 3}"></td>
+                                <td th:text="${warehouse.INamount}"></td>
+                            </tr>
+                            <tr>
+                                <td>ПФ</td>
+                                <td th:text="${discharge.PF * 3}"></td>
+                                <td th:text="${warehouse.PFamount}"></td>
+                            </tr>
+                            <tr>
+                                <td>КФ</td>
+                                <td th:text="${discharge.KF * 3}"></td>
+                                <td th:text="${warehouse.KFamount}"></td>
+                            </tr>
+                            <tr>
+                                <td>АФ</td>
+                                <td th:text="${discharge.AF * 3}"></td>
+                                <td th:text="${warehouse.AFamount}"></td>
+                            </tr>
+                            <tr>
                                 <td>ФСД</td>
-                                <td>2</td>
-                                <td>4</td>
+                                <td th:text="${discharge.FSD * 3}"></td>
+                                <td th:text="${warehouse.FSDamount}"></td>
                             </tr>
                         </table>
                     </div>
                 </div>
                 <div class="collapse" id="6-month">
                     <div class="well">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" th:if="${discharge != null}">
                             <tr>
                                 <th>Имя фильтра</th>
                                 <th>Количество, необходимое для работы</th>
                                 <th>В наличии на складе</th>
                             </tr>
                             <tr>
+                                <td>ВХ</td>
+                                <td th:text="${discharge.IN * 6}"></td>
+                                <td th:text="${warehouse.INamount}"></td>
+                            </tr>
+                            <tr>
+                                <td>ПФ</td>
+                                <td th:text="${discharge.PF * 6}"></td>
+                                <td th:text="${warehouse.PFamount}"></td>
+                            </tr>
+                            <tr>
+                                <td>КФ</td>
+                                <td th:text="${discharge.KF * 6}"></td>
+                                <td th:text="${warehouse.KFamount}"></td>
+                            </tr>
+                            <tr>
+                                <td>АФ</td>
+                                <td th:text="${discharge.AF * 6}"></td>
+                                <td th:text="${warehouse.AFamount}"></td>
+                            </tr>
+                            <tr>
                                 <td>ФСД</td>
-                                <td>2</td>
-                                <td>4</td>
+                                <td th:text="${discharge.FSD * 6}"></td>
+                                <td th:text="${warehouse.FSDamount}"></td>
                             </tr>
                         </table>
                     </div>
                 </div>
                 <div class="collapse" id="year">
                     <div class="well">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" th:if="${discharge != null}">
                             <tr>
                                 <th>Имя фильтра</th>
                                 <th>Количество, необходимое для работы</th>
                                 <th>В наличии на складе</th>
                             </tr>
+
+                            <tr>
+                                <td>ВХ</td>
+                                <td th:text="${discharge.IN * 12}"></td>
+                                <td th:text="${warehouse.INamount}"></td>
+                            </tr>
+                            <tr>
+                                <td>ПФ</td>
+                                <td th:text="${discharge.PF * 12}"></td>
+                                <td th:text="${warehouse.PFamount}"></td>
+                            </tr>
+                            <tr>
+                                <td>КФ</td>
+                                <td th:text="${discharge.KF * 12}"></td>
+                                <td th:text="${warehouse.KFamount}"></td>
+                            </tr>
+                            <tr>
+                                <td>АФ</td>
+                                <td th:text="${discharge.AF * 12}"></td>
+                                <td th:text="${warehouse.AFamount}"></td>
+                            </tr>
                             <tr>
                                 <td>ФСД</td>
-                                <td>2</td>
-                                <td>4</td>
+                                <td th:text="${discharge.FSD * 12}"></td>
+                                <td th:text="${warehouse.FSDamount}"></td>
                             </tr>
                         </table>
                     </div>

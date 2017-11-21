@@ -1,7 +1,5 @@
 package ru.niimpk.deionization.model.counters;
 
-import ru.niimpk.deionization.model.warehouse.Warehouse;
-
 public class WaterDischarge {
     private int dischargePerMonth;
     private int dischargePerDay;
@@ -12,7 +10,6 @@ public class WaterDischarge {
     private int AF;
     private int FSD;
 
-    private Warehouse wh;
 
     public int getDischargePerMonth() {
         return dischargePerMonth;
@@ -30,11 +27,11 @@ public class WaterDischarge {
         this.dischargePerDay = dischargePerDay;
     }
 
-    public int getIN() {
+    public float getIN() {
         return IN;
     }
 
-    public void setIN(int IN) {
+    public void setIN(float IN) {
         this.IN = IN;
     }
 
@@ -68,13 +65,5 @@ public class WaterDischarge {
 
     public void setFSD(int FSD) {
         this.FSD = FSD;
-    }
-
-    public Warehouse getWh() {
-        return wh;
-    }
-
-    public void setWh(Warehouse wh) {
-        this.wh = wh;
     }
 }
