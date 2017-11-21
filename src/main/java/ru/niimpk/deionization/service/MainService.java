@@ -162,21 +162,37 @@ public class MainService {
         int daysLeft = (int) Math.ceil((float) (list.get(0).getDate().getTime() - list.get(list.size() - 1).getDate().getTime())/msPerDay);
         int inWaterPassed = list.get(0).getIncomeStatement() - list.get(list.size() - 1).getIncomeStatement();
         int outWaterPassed = list.get(0).getOutStatement() - list.get(list.size() - 1).getOutStatement();
-        int waterPerDay = (int) (outWaterPassed/(daysLeft - Math.floor((daysLeft  * 2)/7)));
-        int waterPerMonth =  waterPerDay * 22;
-        wd.setDischargePerDay(waterPerDay);
-        wd.setDischargePerMonth(waterPerMonth);
+        int inWaterPerMonth = (int) (inWaterPassed/(daysLeft - Math.floor((daysLeft  * 2)/7))) * 22;
+        int outWaterPerDay = (int) (outWaterPassed/(daysLeft - Math.floor((daysLeft  * 2)/7)));
+        int outWaterPerMonth =  outWaterPerDay * 22;
+        wd.setDischargePerDay(outWaterPerDay);
+        wd.setDischargePerMonth(outWaterPerMonth);
 
-        int KF = (int) Math.ceil((float)outWaterPassed / DataLimit.KF);
+        int KF = waterDischarge(DataLimit.KF, outWaterPerMonth, 3);
         wd.setKF(KF);
         wd.setAF(KF);
         wd.setFSD(KF + 1);
-        wd.setIN((int) Math.ceil((float) inWaterPassed / DataLimit.IN) * 2);
-        logger.info(wd.getIN());
-        wd.setPF((int) Math.ceil((float) inWaterPassed / DataLimit.PF));
+        wd.setIN(waterDischarge(DataLimit.IN, inWaterPerMonth, 3) * 2);
+        wd.setPF(waterDischarge(DataLimit.PF, inWaterPerMonth, 3));
+
+        int KF6 = waterDischarge(DataLimit.KF, outWaterPerMonth, 6);
+        wd.setKF6(KF6);
+        wd.setAF6(KF6);
+        wd.setFSD6(KF6 + 1);
+        wd.setIN6(waterDischarge(DataLimit.IN, inWaterPerMonth, 6) * 2);
+        wd.setPF6(waterDischarge(DataLimit.PF, inWaterPerMonth, 6));
+
+        int KF12 = waterDischarge(DataLimit.KF, outWaterPerMonth, 12);
+        wd.setKF12(KF12);
+        wd.setAF12(KF12);
+        wd.setFSD12(KF12 + 1);
+        wd.setIN12(waterDischarge(DataLimit.IN, inWaterPerMonth, 12) * 2);
+        wd.setPF12(waterDischarge(DataLimit.PF, inWaterPerMonth, 12));
+
         return wd;
     }
 
-    private void setWaterDischarge() {
+    private int waterDischarge(int limit, int waterPassed, int multiply) {
+        return (int) Math.ceil((float) waterPassed * multiply / limit);
     }
 }
