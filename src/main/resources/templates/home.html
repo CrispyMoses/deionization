@@ -71,6 +71,12 @@
 				</div>
 				<button type="submit" class="btn btn-default">Добавить показания</button>
 			</form>
+				<div th:if="${wrongStatement != ''}" class="alert alert-danger text-center" role="alert">
+					<strong th:text="${wrongStatement}"></strong>
+				</div>
+				<div th:if="${success != ''}" class="alert alert-success text-center" role="alert">
+					<strong th:text="${success}"></strong>
+				</div>
 			</div>
 			</div>
 			<footer class="navbar-fixed-bottom">

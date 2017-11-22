@@ -9,6 +9,7 @@ import ru.niimpk.deionization.model.condition.*;
 import ru.niimpk.deionization.model.counters.StatementCounter;
 import ru.niimpk.deionization.model.counters.StatementDateLimit;
 import ru.niimpk.deionization.model.counters.WaterDischarge;
+import ru.niimpk.deionization.model.counters.WrongStatementException;
 import ru.niimpk.deionization.model.filters.Filter;
 import ru.niimpk.deionization.model.filters.FilterFullName;
 import ru.niimpk.deionization.model.filters.FilterLocation;
@@ -62,8 +63,10 @@ public class MainService {
 
 
     //Зафикисровать показания счётчика во всех рабочих фильтрах
-    public void changeStatements(StatementCounter sc) {
+    public void changeStatements(StatementCounter sc) throws WrongStatementException {
         StatementCounter latestSC = dao.getLastStatement();
+        if (sc.getOutStatement() < latestSC.getOutStatement() || sc.getIncomeStatement() < latestSC.getIncomeStatement())
+            throw new WrongStatementException();
         dao.persistStatement(sc);
         changeStatement(dao.getWorkFilter(PlantMappingName.IN1), sc.getIncomeStatement() - latestSC.getIncomeStatement());
         changeStatement(dao.getWorkFilter(PlantMappingName.IN2), sc.getIncomeStatement() - latestSC.getIncomeStatement());
@@ -77,7 +80,7 @@ public class MainService {
     }
 
 
-    public List<PartOfPlant> getPatrsOfPlant() {
+    public List<PartOfPlant> getPartsOfPlant() {
         long today = new Date().getTime();
         long msPerDay = 1000 * 60 *60 * 24;
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");

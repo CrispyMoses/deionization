@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.niimpk.deionization.model.condition.PlantMappingName;
 import ru.niimpk.deionization.model.counters.StatementCounter;
 import ru.niimpk.deionization.model.counters.StatementDateLimit;
+import ru.niimpk.deionization.model.counters.WrongStatementException;
 import ru.niimpk.deionization.model.filters.FilterName;
 import ru.niimpk.deionization.model.warehouse.CreateDeleteUtil;
 import ru.niimpk.deionization.service.MainService;
@@ -22,12 +23,19 @@ public class MainController {
     @Autowired
     private MainService service;
 
+    @RequestMapping(value = "/login")
+    public String login() {return "login";}
+
     @RequestMapping(value = "/")
-    public ModelAndView home() {
+    public ModelAndView home(@ModelAttribute("wrongStatement") String error, @ModelAttribute("success") String success) {
+        log.info(error);
         ModelAndView mov = new ModelAndView();
         mov.setViewName("home");
+        if (!error.equals("")) mov.addObject("wrongStatement", error);
         mov.addObject("statement", new StatementCounter());
-        mov.addObject("plant", service.getPatrsOfPlant());
+        mov.addObject("plant", service.getPartsOfPlant());
+        if (!success.equals(""))
+            mov.addObject("success", success);
         return mov;
     }
 
@@ -54,9 +62,17 @@ public class MainController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/change-statement")
-    public String addStatement(@ModelAttribute StatementCounter sc) {
-        service.changeStatements(sc);
-        return "redirect:/";
+    public ModelAndView addStatement(@ModelAttribute StatementCounter sc) {
+        try {
+            service.changeStatements(sc);
+        } catch (WrongStatementException e) {
+            ModelAndView mav = new ModelAndView("redirect:/");
+            mav.addObject("wrongStatement", "Вы ввели значение меньше предыдущего");
+            return mav;
+        }
+        ModelAndView mav = new ModelAndView("redirect:/");
+        mav.addObject("success", "Показания успешно сохранены");
+        return mav;
     }
 
     @RequestMapping(value = "/replace/{plantMappingName}/{filterName}")
