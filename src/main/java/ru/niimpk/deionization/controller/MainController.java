@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.niimpk.deionization.model.condition.PlantMappingName;
+import ru.niimpk.deionization.model.condition.UtilizedHelper;
 import ru.niimpk.deionization.model.counters.StatementCounter;
 import ru.niimpk.deionization.model.counters.StatementDateLimit;
 import ru.niimpk.deionization.model.counters.WrongStatementException;
@@ -87,14 +88,19 @@ public class MainController {
 
 
     @RequestMapping(value = "/statistic")
-    public ModelAndView statistic(@ModelAttribute StatementDateLimit sdl) {
+    public ModelAndView statistic(@ModelAttribute("dateLimit") StatementDateLimit sdl, @ModelAttribute("utilizedHelper") UtilizedHelper uh) {
         ModelAndView mov = new ModelAndView("statistic");
         mov.addObject("dateLimit", new StatementDateLimit());
+        mov.addObject("utilizedHelper", new UtilizedHelper());
         if (sdl.getAfter() != null) {
             List<StatementCounter> list = service.getStatementList(sdl);
             mov.addObject("discharge", service.getDischarge(list));
             mov.addObject("warehouse", service.getWarehouse());
             mov.addObject("statements", list);
+        }
+//
+        if (uh.getuAfter() != null && uh.getuBefore() != null && !uh.getFilterName().equals("null")) {
+            mov.addObject("filters",service.getUtilizedFilters(uh));
         }
         return mov;
     }

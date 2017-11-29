@@ -119,3 +119,20 @@ td {
 .statistic-data {
 	font-size: 17px;
 }
+
+.devider {
+	margin-top: 50px;
+}
+
+@media screen and (max-width: 980px) {
+	.DK, .A1-3, .E, .filter {
+		display: block;
+		width: 100%;
+		height: 30px;
+		line-height: 2;
+	}
+
+	.center-block {
+		width: 100%;
+	}
+}

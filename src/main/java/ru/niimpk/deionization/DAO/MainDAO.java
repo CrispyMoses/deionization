@@ -113,4 +113,13 @@ public class MainDAO {
                 .setParameter("before", before)
                 .setParameter("after", after).getResultList();
     }
+
+    public List<Filter> getUtilizedFilters( FilterName name, Date before, Date after) {
+        return em.createQuery("select f from Filter f where f.location = :location and f.name = :name and f.utilizeDate <= :before and f.utilizeDate >= :after order by f.utilizeDate desc", Filter.class)
+                .setParameter("before", before)
+                .setParameter("after", after)
+                .setParameter("location", FilterLocation.UTILIZED)
+                .setParameter("name", name)
+                .getResultList();
+    }
 }

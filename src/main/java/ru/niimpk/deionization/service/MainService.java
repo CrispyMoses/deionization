@@ -198,4 +198,8 @@ public class MainService {
     private int waterDischarge(int limit, int waterPassed, int multiply) {
         return (int) Math.ceil((float) waterPassed * multiply / limit);
     }
+
+    public List<Filter> getUtilizedFilters(UtilizedHelper uh) {
+        return dao.getUtilizedFilters(FilterName.valueOf(uh.getFilterName()), uh.getuBefore(), uh.getuAfter());
+    }
 }
