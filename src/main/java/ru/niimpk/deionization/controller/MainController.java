@@ -10,6 +10,7 @@ import ru.niimpk.deionization.model.condition.UtilizedHelper;
 import ru.niimpk.deionization.model.counters.StatementCounter;
 import ru.niimpk.deionization.model.counters.StatementDateLimit;
 import ru.niimpk.deionization.model.counters.WrongStatementException;
+import ru.niimpk.deionization.model.filters.Filter;
 import ru.niimpk.deionization.model.filters.FilterName;
 import ru.niimpk.deionization.model.warehouse.CreateDeleteUtil;
 import ru.niimpk.deionization.service.MainService;
@@ -94,13 +95,22 @@ public class MainController {
         mov.addObject("utilizedHelper", new UtilizedHelper());
         if (sdl.getAfter() != null) {
             List<StatementCounter> list = service.getStatementList(sdl);
+            if (list.size() == 0) {
+                mov.addObject("error", "Не найдено записей с счётчиков");
+                return mov;
+            }
             mov.addObject("discharge", service.getDischarge(list));
             mov.addObject("warehouse", service.getWarehouse());
             mov.addObject("statements", list);
         }
 //
         if (uh.getuAfter() != null && uh.getuBefore() != null && !uh.getFilterName().equals("null")) {
-            mov.addObject("filters",service.getUtilizedFilters(uh));
+            List<Filter> list = service.getUtilizedFilters(uh);
+            if (list.size() == 0) {
+                mov.addObject("utilizedError", "Не найдено утилизированных счётчиков");
+                return mov;
+            }
+            mov.addObject("filters",list);
         }
         return mov;
     }

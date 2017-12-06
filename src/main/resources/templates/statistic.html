@@ -39,6 +39,9 @@
                     </div>
                     <button type="submit" class="btn btn-default">Получить данные</button>
                 </form>
+                <div th:if="${error != null}" class="alert alert-danger text-center" role="alert">
+                    <strong th:text="${error}"></strong>
+                </div>
                 <br/>
                 <span>Расход воды в месяц: </span><span th:if="${discharge != null}" th:text="${discharge.dischargePerMonth}"></span>
                 <br/>
@@ -204,6 +207,9 @@
                     </div>
                     <button type="submit" class="btn btn-default">Получить данные</button>
                 </form>
+                <div th:if="${utilizedError != null}" class="alert alert-danger text-center" role="alert">
+                    <strong th:text="${utilizedError}"></strong>
+                </div>
             </div>
             <div class="col-md-6">
                 <table class="table table-bordered">

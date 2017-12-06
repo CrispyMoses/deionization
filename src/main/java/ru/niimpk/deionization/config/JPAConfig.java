@@ -1,6 +1,7 @@
 package ru.niimpk.deionization.config;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories
-public class JPAConfig implements TransactionManagementConfigurer{
+public class JPAConfig implements TransactionManagementConfigurer {
     @Value("${dataSource.driverClassName}")
     private String driver;
     @Value("${dataSource.url}")
@@ -33,14 +34,14 @@ public class JPAConfig implements TransactionManagementConfigurer{
 
 
     @Bean
-    public DataSource configureDataSource() {
-        DataSource config = new DataSource();
+    public HikariDataSource configureDataSource() {
+        HikariConfig config = new HikariConfig();
         config.setDriverClassName(driver);
-        config.setUrl(url);
+        config.setJdbcUrl(url);
         config.setUsername(username);
         config.setPassword(password);
 
-        return config;
+        return new HikariDataSource(config);
     }
 
     @Bean
