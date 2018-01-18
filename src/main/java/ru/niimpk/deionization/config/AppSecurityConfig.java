@@ -1,6 +1,7 @@
 package ru.niimpk.deionization.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +13,11 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @Configuration
 @EnableWebSecurity
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Value("${security.user.login}")
+    private String userLogin;
+    @Value("${security.user.password}")
+    private String userPassword;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -50,8 +56,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()
-                .withUser("niimpk").password("niimpkpassword").roles("USER")
-                .and()
-                .withUser("admin").password("password").roles("ADMIN");
+                .withUser(userLogin).password(userPassword).roles("USER");
     }
 }

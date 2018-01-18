@@ -3,4 +3,3 @@
 Так же используются ORM (JPA, Hibernate) Логгер (log4j)
 База данных - MySQL
 Фронт - html, css, thymeleaf, bootstrap, немного ванилы JS.
-Выполнить полностью раобчий проект на .NET Framework за 2 недели не вижу возможности.
