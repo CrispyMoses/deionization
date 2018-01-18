@@ -7,13 +7,14 @@ target/
 .factorypath
 .project
 .settings
+.properties
 
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
-*.properties
+
 
 ### NetBeans ###
 nbproject/private/
